@@ -20,7 +20,7 @@ def d1_d2(spot: float, strike: float, t: float, rd: float, rf: float, vol: float
         raise ValueError("vol must be > 0")
 
     denom = vol * math.sqrt(t)
-    nun = math.log(spot / strike) + (rd - rf + 0.5*vol**2) * t 
+    num = math.log(spot / strike) + (rd - rf + 0.5*vol**2) * t 
 
     d1 = num / denom
     d2 = d1 - denom
@@ -45,7 +45,7 @@ def price_per_unit(spot: float, strike: float, t: float, rd: float, rf: float, v
 
     # Edge cases
     if t <= 0.0 or vol <= 0.0:
-        intrinsic = max(fwd - strike, 0.0) if option == "CALL" else max(strike - fwd, 0.0)
+        intrinsic = max(fwd - strike, 0.0) if option_type == "CALL" else max(strike - fwd, 0.0)
         return df_d * intrinsic
 
     d1, d2 = d1_d2(spot, strike, t, rd, rf, vol)
@@ -56,7 +56,7 @@ def price_per_unit(spot: float, strike: float, t: float, rd: float, rf: float, v
     if option_type == "CALL":
         return spot * df_f * norm.cdf(d1) - strike * df_d * norm.cdf(d2)
 
-    return strike * df_d * norm.cds(-d2) - spot * df_f * norm.cdf(-d1)
+    return strike * df_d * norm.cdf(-d2) - spot * df_f * norm.cdf(-d1)
 
 
 def delta_per_unit(spot: float, strike: float, t: float, rd: float, rf: float, vol: float, option_type: OptionTypeLiteral) -> float:
@@ -68,7 +68,7 @@ def delta_per_unit(spot: float, strike: float, t: float, rd: float, rf: float, v
     if t <= 0.0 or vol <= 0.0:
         df_f = 1.0 if t <= 0.0 else math.exp(-rf * t)
         fwd = spot if t <= 0.0 else _forward(spot, t, rd, rf)
-        if option == "CALL":
+        if option_type == "CALL":
             return df_f if fwd > strike else 0.0
         return df_f * (-1.0 if fwd < strike else 0.0)
 

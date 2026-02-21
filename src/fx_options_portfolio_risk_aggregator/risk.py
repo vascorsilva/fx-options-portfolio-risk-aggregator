@@ -4,11 +4,12 @@ from datetime import date
 
 from .daycount import years_in_fraction
 from .models import Trade, TradeResults, PortfolioResults
+from .pricing import delta_per_unit, price_per_unit, vega_per_unit
 
 
 def price_trade(trade: Trade, valuation_date: date) -> TradeResults():
     
-    t = years_in_fraction(valuation_date, trade.expiry)
+    t = float(trade.expiry)
     
 
     pv_u = price_per_unit(
@@ -21,6 +22,7 @@ def price_trade(trade: Trade, valuation_date: date) -> TradeResults():
         trade.option_type.value
     )
 
+
     delta_u = delta_per_unit(
         trade.spot,
         trade.strike,
@@ -32,7 +34,7 @@ def price_trade(trade: Trade, valuation_date: date) -> TradeResults():
     )
 
 
-    vega_u = delta_per_unit(
+    vega_u = vega_per_unit(
         trade.spot,
         trade.strike,
         t,
@@ -41,7 +43,8 @@ def price_trade(trade: Trade, valuation_date: date) -> TradeResults():
         trade.vol,
     )
 
-    return TradeResult(
+
+    return TradeResults(
         trade_id=trade.trade_id,
         underlying=trade.underlying,
         pv=pv_u * trade.notional,          # notional is foreign units so present value and greeks returned in domestic currency units.
@@ -51,9 +54,8 @@ def price_trade(trade: Trade, valuation_date: date) -> TradeResults():
     )
 
 
-
 def aggregate_portfolio(results: List[TradeResults]) -> PortfolioResults:
-    return PortfolioResult(
+    return PortfolioResults(
         pv_total=sum(r.pv for r in results),
         delta_total=sum(r.delta for r in results),
         vega_total=sum(r.vega for r in results),

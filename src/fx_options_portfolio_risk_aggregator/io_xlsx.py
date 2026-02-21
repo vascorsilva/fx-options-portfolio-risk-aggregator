@@ -5,11 +5,12 @@ from typing import Any
 
 import pandas as pd
 
-from .models import PortfolioResults, TradeResult
+from .models import PortfolioResults, TradeResults
 
 
 def read_excel_records(path: Path) -> list[dict[str, Any]]:
     df = pd.read_excel(path)
+   
     return df.to_dict(orient="records")
 
 

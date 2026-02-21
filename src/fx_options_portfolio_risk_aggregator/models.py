@@ -17,14 +17,15 @@ def _normalise_option_type(value: Any) -> str:
         raise ValueError("option_type required.")
     s = str(value).strip().upper()
     mapping = {
-        "C": "CALL",
         "CALL": "CALL",
+        "C": "CALL",
         "P": "PUT",
-        "PUT": "PUT"
+        "PUT": "PUT",
     }
     if s not in mapping:
         raise ValueError(f"invalid option_type: {value!r} (expected CALL/PUT)")
     return mapping[s]
+
 
 class Trade(BaseModel):
     """
@@ -34,13 +35,13 @@ class Trade(BaseModel):
     trade_id: str = Field(..., alias="TradeID", min_length=1)
     underlying: str = Field(..., alias="Underlying", min_length=6, max_length=7)
     notional: float = Field(..., alias="Notional", gt=0.0)
-    notional_currency: str = Field(..., alias="NotionalCurrency", min_length=3, max_lenth=3)
+    notional_currency: str = Field(..., alias="NotionalCurrency", min_length=3, max_length=3)
     spot: float = Field(..., alias="Spot", gt=0.0)
     strike: float = Field(..., alias="Strike", gt=0.0)
     vol: float = Field(..., alias="Vol", ge=0.0)
     rate_domestic: float = Field(..., alias="RateDomestic")
     rate_foreign: float = Field(..., alias="RateForeign")
-    expiry: Any = Field(..., alias="Expiry")
+    expiry: float = Field(..., alias="Expiry", ge=0.0)
     option_type: OptionType = Field(..., alias="OptionType")
 
     @field_validator("underlying")
@@ -49,6 +50,7 @@ class Trade(BaseModel):
         s = v.strip().upper().replace("/", "")
         if len(s) < 6:
             raise ValueError("Underlying must be fx currency pair notation e.g. EUR/USD or EURUSD")
+        return s
 
     @field_validator("notional_currency")
     @classmethod
