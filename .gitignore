@@ -17,4 +17,5 @@ Thumbs.db
 .idea/
 
 # Outputs
-outputs/
+outputs/*
+!outputs/results.xlsx

@@ -51,7 +51,7 @@ def price_per_unit(spot: float, strike: float, t: float, rd: float, rf: float, v
     d1, d2 = d1_d2(spot, strike, t, rd, rf, vol)
 
     # Foreign discount factor - foreign currency behaves like dividend paying asset with yield rf
-    df_f = math.exp(rf * t)
+    df_f = math.exp(-rf * t)
 
     if option_type == "CALL":
         return spot * df_f * norm.cdf(d1) - strike * df_d * norm.cdf(d2)
