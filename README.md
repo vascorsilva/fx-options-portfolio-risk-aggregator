@@ -61,11 +61,12 @@ The system is structured into distinct layers:
 
 ```mermaid
 graph TD
-    A[CLI Entry Point<br/>`python main.py args`] --> B[IO Layer<br/>Parse args, load configs]
-    B --> C[Domain Model<br/>Validation & Business Logic]
+    A[CLI Entry Point<br/>Command-line entry point] --> B[IO Layer<br/>Excel file ingestion]
+    B --> C[Domain Model Validation<br/>Typed trade objects]
     C --> D[Pricing Engine<br/>Garman-Kohlhagen, Greeks]
-    D --> E[Risk Aggregation<br/>VaR, ES/CVaR, Scenarios]
-    E --> F[Output Writer<br/>CSV, JSON, Reports]
+    D --> E[Risk Aggregation<br/>Portfolio Risk totals]
+    E --> F[Output Writer<br/>Excel]
+
     
     style A fill:#e1f5fe
     style F fill:#e8f5e8
