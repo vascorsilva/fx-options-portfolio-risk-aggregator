@@ -7,7 +7,7 @@ from fx_options_portfolio_risk_aggregator.pricing import (
 )
 
 
-def testing_put_call_parity():
+def test_put_call_parity():
     s = 1.10
     k = 1.12
     t = 0.5
@@ -40,7 +40,6 @@ def test_delta_matches_finite_difference():
     delta = delta_per_unit(s, k, t, rd, rf, vol, "CALL")
 
     assert abs(delta - fd) < 1e-6
-
 
 
 def test_vega_matches_finite_difference():

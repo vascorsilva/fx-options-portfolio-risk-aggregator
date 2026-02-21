@@ -14,7 +14,7 @@ def read_excel_records(path: Path) -> list[dict[str, Any]]:
     return df.to_dict(orient="records")
 
 
-def write_results(path: Path, trade_results: list[TradeResult], portfolio: PortfolioResult) -> None:
+def write_results(path: Path, trade_results: list[TradeResults], portfolio: PortfolioResults) -> None:
     out_path = Path(path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 

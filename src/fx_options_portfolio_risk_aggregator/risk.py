@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 from datetime import date
+from typing import List
 
 from .daycount import years_in_fraction
 from .models import Trade, TradeResults, PortfolioResults
 from .pricing import delta_per_unit, price_per_unit, vega_per_unit
 
 
-def price_trade(trade: Trade, valuation_date: date) -> TradeResults():
+def price_trade(trade: Trade, valuation_date: date) -> TradeResults:
     
     t = float(trade.expiry)
     
