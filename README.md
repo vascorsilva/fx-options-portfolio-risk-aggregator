@@ -168,10 +168,8 @@ Expected Excel columns:
 - `Vol`
 - `RateDomestic`
 - `RateForeign`
-- `Expiry` (time-to-maturity in years)
+- `Expiry` (time-to-maturity in years fractions or maturity date)
 - `OptionType`
-
-`Expiry` is interpreted as time-to-maturity (e.g. 0.25 = 3 months).
 
 ---
 
@@ -264,7 +262,8 @@ pip install -r requirements.txt
 PYTHONPATH=src python -m fx_options_portfolio_risk_aggregator.cli \
   --input data/fx_trades.xlsx \
   --output outputs/results.xlsx \
-  --valuation-date 2026-02-20
+  --valuation-date 2026-02-20 \
+  --day-count ACT/365
 ```
 
 ---
@@ -274,5 +273,5 @@ PYTHONPATH=src python -m fx_options_portfolio_risk_aggregator.cli \
  - Packaging (`pip install -e .`) instead of `PYTHONPATH`.
  - Vectorised pricing for large books.
  - Support for volatility surfaces.
- - Adapat fo valuation-date as its purely cosmetic for now
+ - ~Adapat fo valuation-date as its purely cosmetic for now~
  - Introduce configurable day count
