@@ -254,7 +254,7 @@ The pricing engine itself depends only on `math` and `scipy.stats.norm`.
 python -m venv .venv-fxopra
 source .venv-fxopra/bin/activate
 pip install -r requirements.txt
-````
+```
 
 #### 2. Run CLI:
 
@@ -275,3 +275,4 @@ PYTHONPATH=src python -m fx_options_portfolio_risk_aggregator.cli \
  - Support for volatility surfaces.
  - ~Adapat fo valuation-date as its purely cosmetic for now~
  - Introduce configurable day count
+ - Fix base currency conversion
